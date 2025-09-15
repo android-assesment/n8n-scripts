@@ -10,4 +10,4 @@
 
 ## FAQs
 **Q**: "Mere order ka status kaise check karun?"
-**A**: "Tube Boost app me 'My Orders' section open karein."
+**A**: "Tube Boost app me 'My Orders' section open karein. "
