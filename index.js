@@ -80,7 +80,7 @@
             height: 32px;
             border-radius: var(--chat-radius-sm);
             object-fit: contain;
-            background: white;
+            background: transparent;
             padding: 4px;
         }
 
@@ -168,7 +168,8 @@
         .chat-assist-widget .chat-body {
             display: none;
             flex-direction: column;
-            height: 80%;
+            flex-grow: 1;
+            height: calc(100% - 65px);
         }
 
         .chat-assist-widget .chat-body.active {
@@ -293,6 +294,7 @@
             max-height: 120px;
             min-height: 48px;
             transition: var(--chat-transition);
+            box-sizing: border-box;
         }
 
         .chat-assist-widget .chat-textarea:focus {
@@ -371,26 +373,6 @@
             font-weight: 600;
             font-size: 15px;
             white-space: nowrap;
-        }
-
-        .chat-assist-widget .chat-footer {
-            padding: 10px;
-            text-align: center;
-            background: var(--chat-color-surface);
-            border-top: 1px solid var(--chat-color-light);
-        }
-
-        .chat-assist-widget .chat-footer-link {
-            color: var(--chat-color-primary);
-            text-decoration: none;
-            font-size: 12px;
-            opacity: 0.8;
-            transition: var(--chat-transition);
-            font-family: inherit;
-        }
-
-        .chat-assist-widget .chat-footer-link:hover {
-            opacity: 1;
         }
 
         .chat-assist-widget .suggested-questions {
@@ -640,9 +622,6 @@
                         <path d="M22 2l-7 20-4-9-9-4 20-7z"></path>
                     </svg>
                 </button>
-            </div>
-            <div class="chat-footer">
-                <a class="chat-footer-link" href="${settings.branding.poweredBy.link}" target="_blank">${settings.branding.poweredBy.text}</a>
             </div>
         </div>
     `;
@@ -981,3 +960,4 @@
         });
     });
 })();
+
