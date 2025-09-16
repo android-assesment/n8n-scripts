@@ -544,10 +544,10 @@
             name: '',
             welcomeText: '',
             responseTimeText: '',
-            poweredBy: {
-                text: 'Powered by n8n',
-                link: 'https://n8n.partnerlinks.io/fabimarkl'
-            }
+            // poweredBy: {
+            //     text: 'Powered by n8n',
+            //     link: 'https://n8n.partnerlinks.io/fabimarkl'
+            // }
         },
         style: {
             primaryColor: '#10b981', // Green
