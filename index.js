@@ -30,22 +30,15 @@
 
             // Script tag se configuration ko padhein
             getConfig() {
-                const scriptTag = document.querySelector('script[src*="embed.js"]'); // Apne script ke naam se isko badal lein
+                // Sabse pehle us script tag ko dhoondhein jismein 'data-hostname' attribute hai.
+                // Yeh sabse aasaan tarika hai.
+                const scriptTag = document.querySelector('script[data-hostname]');
                 if (!scriptTag) {
-                     // Agar upar wala selector kaam na kare, to ek fallback attribute se dhoondhein
-                    const fallbackScriptTag = document.querySelector('script[data-n8n-embed]');
-                    return {
-                        hostname: fallbackScriptTag?.dataset.hostname,
-                        label: fallbackScriptTag?.dataset.label || 'Chat Karein',
-                        placeholder: fallbackScriptTag?.dataset.placeholder || 'Apna sandesh likhein...',
-                        primaryColor: fallbackScriptTag?.dataset.primaryColor || '#3b82f6',
-                        textColor: fallbackScriptTag?.dataset.textColor || '#ffffff',
-                        botMessageColor: fallbackScriptTag?.dataset.botMessageColor || '#f1f5f9',
-                        botMessageTextColor: fallbackScriptTag?.dataset.botMessageTextColor || '#1e293b',
-                        initialMessage: fallbackScriptTag?.dataset.initialMessage || 'Salaam! Main aapki kaise madad kar sakta hoon?',
-                    };
+                    console.error("N8N Chat Error: Script tag mein 'data-hostname' attribute nahi mil raha hai.");
+                    return {}; // Khaali config return karein
                 }
-                 return {
+
+                return {
                     hostname: scriptTag.dataset.hostname,
                     label: scriptTag.dataset.label || 'Chat Karein',
                     placeholder: scriptTag.dataset.placeholder || 'Apna sandesh likhein...',
@@ -363,3 +356,4 @@
         new N8NChatEmbed();
     }
 })();
+
