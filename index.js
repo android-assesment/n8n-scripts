@@ -459,7 +459,7 @@
         } : defaultSettings;
 
     // Session tracking
-    let conversationId = '';
+    let conversationId = localStorage.getItem('n8n-chat-conversation-id') || '';
     let isWaitingForResponse = false;
 
     // Create widget DOM structure
@@ -536,6 +536,41 @@
     const sendButton = chatWindow.querySelector('.chat-submit');
     const chatWelcome = chatWindow.querySelector('.chat-welcome');
 
+    // Helper function to save chat history to local storage
+    function saveChatHistory() {
+        const messages = [];
+        messagesContainer.querySelectorAll('.chat-bubble').forEach(bubble => {
+            messages.push({
+                type: bubble.classList.contains('user-bubble') ? 'user' : 'bot',
+                html: bubble.innerHTML
+            });
+        });
+        localStorage.setItem('n8n-chat-history', JSON.stringify(messages));
+    }
+
+    // Helper function to load chat history from local storage
+    function loadChatHistory() {
+        const savedHistory = localStorage.getItem('n8n-chat-history');
+        const savedSessionId = localStorage.getItem('n8n-chat-conversation-id');
+
+        if (savedHistory && savedSessionId && JSON.parse(savedHistory).length > 0) {
+            conversationId = savedSessionId;
+            const messages = JSON.parse(savedHistory);
+            
+            messages.forEach(msg => {
+                const messageElement = document.createElement('div');
+                messageElement.className = `chat-bubble ${msg.type}-bubble`;
+                messageElement.innerHTML = msg.html;
+                messagesContainer.appendChild(messageElement);
+            });
+
+            chatWelcome.style.display = 'none';
+            chatBody.classList.add('active');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+    }
+
+
     // Helper function to generate unique session ID
     function createSessionId() {
         return crypto.randomUUID();
@@ -566,9 +601,14 @@
 
     // Start the chat session
     async function startChat() {
+        // Clear previous chat history for a new session
+        localStorage.removeItem('n8n-chat-history');
+        messagesContainer.innerHTML = '';
+
         chatWelcome.style.display = 'none';
         chatBody.classList.add('active');
         conversationId = createSessionId();
+        localStorage.setItem('n8n-chat-conversation-id', conversationId);
         
         const typingIndicator = createTypingIndicator();
         messagesContainer.appendChild(typingIndicator);
@@ -618,6 +658,7 @@
                 messagesContainer.appendChild(suggestedQuestionsContainer);
             }
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            saveChatHistory();
 
         } catch (error) {
             console.error('Error starting chat:', error);
@@ -629,6 +670,7 @@
             errorMessage.textContent = "Sorry, I couldn't connect to the server. Please try again later.";
             messagesContainer.appendChild(errorMessage);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            saveChatHistory();
         }
     }
 
@@ -682,6 +724,7 @@
             botMessage.innerHTML = linkifyText(responseText);
             messagesContainer.appendChild(botMessage);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            saveChatHistory();
         } catch (error) {
             console.error('Message submission error:', error);
             
@@ -696,6 +739,7 @@
             errorMessage.textContent = "Sorry, I couldn't send your message. Please try again.";
             messagesContainer.appendChild(errorMessage);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            saveChatHistory();
         } finally {
             isWaitingForResponse = false;
         }
@@ -706,6 +750,9 @@
         messageTextarea.style.height = 'auto';
         messageTextarea.style.height = (messageTextarea.scrollHeight > 120 ? 120 : messageTextarea.scrollHeight) + 'px';
     }
+
+    // Load existing chat history when the widget initializes
+    loadChatHistory();
 
     // Event listeners
     startChatButton.addEventListener('click', startChat);
@@ -745,4 +792,3 @@
         });
     });
 })();
-
