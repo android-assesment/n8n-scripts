@@ -566,7 +566,6 @@
 
             chatWelcome.style.display = 'none';
             chatBody.classList.add('active');
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
     }
 
@@ -781,7 +780,15 @@
     });
     
     launchButton.addEventListener('click', () => {
-        chatWindow.classList.toggle('visible');
+        const isNowVisible = chatWindow.classList.toggle('visible');
+
+        if (isNowVisible) {
+            // Use a small timeout to let the CSS transition begin and for the
+            // browser to calculate the correct scrollHeight.
+            setTimeout(() => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }, 50);
+        }
     });
 
     // Close button functionality
