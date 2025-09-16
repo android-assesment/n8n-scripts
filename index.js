@@ -38,7 +38,7 @@
             bottom: 90px;
             z-index: 1000;
             width: 380px;
-            height: 580px;
+            height: 500px; /* Reduced height from 580px */
             background: var(--chat-color-surface);
             border-radius: var(--chat-radius-lg);
             box-shadow: var(--chat-shadow-lg);
