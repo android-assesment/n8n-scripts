@@ -168,7 +168,7 @@
         .chat-assist-widget .chat-body {
             display: none;
             flex-direction: column;
-            height: 100%;
+            height: 80%;
         }
 
         .chat-assist-widget .chat-body.active {
