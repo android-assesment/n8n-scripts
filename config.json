@@ -11,7 +11,7 @@
   },
   "manualPaymentConfig": {
     "pointsPageContent": "💰Get an Extra 10% Bonus – Tap Here!👆",
-    "isEnabled": false,
+    "isEnabled": true,
     "isPaymentPageUrlExternal": true,
     "paymentIconUrl" : "https://i.ibb.co/zV0cn5Kh/Qy4-JMwid-WE.gif",
     "paymentPageURL": "https://sites.google.com/view/tb-manual-payment/home",
